@@ -102,8 +102,11 @@ public class ToDoController {
 //	UTILS
 	private void updateTodo(int todoId, String todoTask, Boolean isCompleted) {
 	    for (int i = 0; i < listOfTodos.size(); i++) {
+	    	
 	        ToDoModel todo = listOfTodos.get(i);
+	        
 	        if (todo.getId() == todoId) {
+	        	
 	        	if (todoTask != null)
 	        		todo.setTask(todoTask);
 	        	if (isCompleted != null)

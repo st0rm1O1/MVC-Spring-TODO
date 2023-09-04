@@ -49,7 +49,7 @@ public class ToDoController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("index");		
 		modelAndView.addObject("listOfTodos", listOfTodos);
-		modelAndView.addObject("user", new UserModel(1, "st0rm1O1", "thekunalvartak@gmail.com", "alien"));
+		modelAndView.addObject("user", new UserModel("550e8400-e29b-41d4-a716-446655440000", "st0rm1O1", "thekunalvartak@gmail.com", "alien"));
 		return modelAndView;
 	}
 	

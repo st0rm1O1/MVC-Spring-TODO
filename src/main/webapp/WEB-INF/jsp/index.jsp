@@ -14,6 +14,27 @@
 <title>@${user.username}</title>
 </head>
 <style>
+    .modal-content {
+    	color: white;
+        background-color: rgba(200, 200, 200, 0.4);
+        backdrop-filter: blur(10px);
+        border: none;
+        box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.8);
+    }
+
+	.glassy-table {
+	    background: rgba(255, 255, 255, 0.2);
+	    border-collapse: separate;
+	    border-spacing: 0;
+	    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	    backdrop-filter: blur(10px);
+	    border-radius: 10px;
+	}
+	
+	.glassy-table th, .glassy-table td {
+	    padding: 10px;
+	}
+        
 	.strikethrough {
 	  position: relative;
 	  display: inline-block;
@@ -52,12 +73,17 @@
 	  font-size: 16px;
 	  font-weight: 600
 	}
+	
+	.header-5 {
+	  font-size: 15px;
+	  font-weight: 500
+	}
 </style>
 <body>
 
 	<div class="m-4">
 	
-		<div style="display: flex;">
+		<div style="display: flex;" class="mb-2">
 			<div>
 			
 			<%
@@ -74,23 +100,29 @@
 		        	greetingMessage = "Good Evening!🌇";
 			%>
 			
-				<h1 class="header-1"><%= greetingMessage %></h1>
-				<h3 class="header-3">@${user.username}</h3>
-				<button class="btn btn-primary mt-5 mb-3" type="submit" data-toggle="modal" data-target="#newTaskModal">New Task</button>
+				<h1 class="header-2"><%= greetingMessage %></h1>
+				<div class="mt-1">
+					<a href="#" class="header-5 badge badge-warning">${user.id}</a>
+					<a href="#" class="header-5 badge badge-danger">@${user.username}</a>
+					<a href="#" class="header-5 badge badge-success">${user.email}</a>
+				</div>
+				<button class="btn btn-primary mt-5" type="submit" data-toggle="modal" data-target="#newTaskModal">New Task</button>
 			</div>
 		</div>
 		
 
-		<table class="table table-hover" border=1>
+		<table data-tilt data-tilt-max=".2" data-tilt-speed="400" data-tilt-perspective="500" data-tilt-glare="true" data-tilt-max-glare="0.2" class="table table-hover glassy-table rounded" border=1>
 			<thead class="thead-dark">
 				<tr class="text-center header-4">
-					<th scope="col">Status</th>
 					<th scope="col">
-						Task
+						#
+					</th>
+					<th scope="col">
+						Tasks
 					</th>
 					<th scope="col">
 						<span class="material-symbols-outlined">
-							priority
+							task_alt
 						</span>
 					</th>
 					<th scope="col">
@@ -158,7 +190,7 @@
 	</div>
 	
 	
-	<div class="modal fade" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="newTaskModalTitle" aria-hidden="true">
+	<div class="modal fade" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="500" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="newTaskModalTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -185,7 +217,7 @@
 		</div>
 	</div>
 	
-	<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalTitle" aria-hidden="true">
+	<div class="modal fade" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="500" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -214,7 +246,7 @@
 	
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
+			<div class="modal-content" data-tilt data-tilt-max="2" data-tilt-speed="400" data-tilt-perspective="500" data-tilt-glare="true" data-tilt-max-glare=".5">
 				<div class="modal-header">
 				  <h5 class="modal-title" id="deleteModalLongTitle">🔔 Confirmation Required!</h5>
 				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -222,8 +254,8 @@
 				  </button>
 				</div>
 				<div class="modal-body">
-				  Are you certain you wish to proceed with the deletion of this task? 
-				  <p>ℹ️ Remember, action cannot be reversible.</p>
+				  Are you sure you want to delete this task?
+				  <p><span class="mt-2 badge badge-danger">⚠️ Irreversible Action</span></p>
 				</div>
 				<div class="modal-footer">
 				  	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -267,10 +299,12 @@
 		    });
 			
 	    });
+		
 	</script>
-	
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="<c:url value="/js/vanilla-tilt.js" />"></script>
+
 </body>
 </html>

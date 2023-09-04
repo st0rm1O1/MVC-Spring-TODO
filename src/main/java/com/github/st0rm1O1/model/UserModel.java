@@ -14,7 +14,7 @@ public class UserModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	public int id;
+	public String id;
 	
 	@Column(name = "user_name")
 	public String username;
@@ -26,7 +26,7 @@ public class UserModel {
 	public String password;
 	
 		
-	public UserModel(int id, String username, String email, String password) {
+	public UserModel(String id, String username, String email, String password) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -36,7 +36,7 @@ public class UserModel {
 	
 
 //	GETTERS
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
@@ -57,7 +57,7 @@ public class UserModel {
 
 
 //	SETTERS
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

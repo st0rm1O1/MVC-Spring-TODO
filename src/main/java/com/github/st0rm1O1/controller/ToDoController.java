@@ -3,7 +3,7 @@ package com.github.st0rm1O1.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+//import jakarta.annotation.PostConstruct;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -25,7 +25,7 @@ public class ToDoController {
 	private static List<ToDoModel> listOfTodos;
 	
 	
-    @PostConstruct
+//    @PostConstruct
     public void init() {
 		listOfTodos = new ArrayList<ToDoModel>();
 		listOfTodos.add(new ToDoModel(1, "Finish reading a classic novel.", false));
@@ -46,6 +46,10 @@ public class ToDoController {
 //	VIEW	
 	@RequestMapping(path = {"/", "/home", "/index", "/dash", "/dashboard"}, method = RequestMethod.GET)
 	public ModelAndView dash() {
+		if (null == listOfTodos) {
+			init();
+		}
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("index");		
 		modelAndView.addObject("listOfTodos", listOfTodos);

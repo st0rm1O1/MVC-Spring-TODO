@@ -1,7 +1,7 @@
 package com.github.st0rm1O1.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 //import jakarta.annotation.PostConstruct;
 
@@ -22,23 +22,22 @@ import com.github.st0rm1O1.model.UserModel;
 @Controller
 public class ToDoController {
 	
-	private static List<ToDoModel> listOfTodos;
+	private static TreeMap<Integer, ToDoModel> listOfTodos;
 	
 	
 //    @PostConstruct
     public void init() {
-		listOfTodos = new ArrayList<ToDoModel>();
-		listOfTodos.add(new ToDoModel(1, "Finish reading a classic novel.", false));
-		listOfTodos.add(new ToDoModel(2, "Learn to play a musical instrument.", false));
-		listOfTodos.add(new ToDoModel(3, "Visit a country you've never been to before.", true));
-		listOfTodos.add(new ToDoModel(4, "Try a new cuisine or cooking technique.", false));
-		listOfTodos.add(new ToDoModel(5, "Start a daily mindfulness or meditation practice.", true));
-		listOfTodos.add(new ToDoModel(6, "Learn a new language or improve your language skills.", false));
-		listOfTodos.add(new ToDoModel(7, "Take up a new sport or physical activity.", false));
-		listOfTodos.add(new ToDoModel(8, "Volunteer for a charitable organization.", false));
-		listOfTodos.add(new ToDoModel(9, "Learn a new programming language or technology.", true));
-		listOfTodos.add(new ToDoModel(10, "Create a personal website or blog to share your interests.", false));
-
+		listOfTodos = new TreeMap<>();
+		listOfTodos.put(1, new ToDoModel(1, "Finish reading a classic novel.", false));
+		listOfTodos.put(2, new ToDoModel(2, "Learn to play a musical instrument.", false));
+		listOfTodos.put(3, new ToDoModel(3, "Visit a country you've never been to before.", true));
+		listOfTodos.put(4, new ToDoModel(4, "Try a new cuisine or cooking technique.", false));
+		listOfTodos.put(5, new ToDoModel(5, "Start a daily mindfulness or meditation practice.", true));
+		listOfTodos.put(6, new ToDoModel(6, "Learn a new language or improve your language skills.", false));
+		listOfTodos.put(7, new ToDoModel(7, "Take up a new sport or physical activity.", false));
+		listOfTodos.put(8, new ToDoModel(8, "Volunteer for a charitable organization.", false));
+		listOfTodos.put(9, new ToDoModel(9, "Learn a new programming language or technology.", true));
+		listOfTodos.put(10, new ToDoModel(10, "Create a personal website or blog to share your interests.", false));
     }
 	
 	
@@ -52,7 +51,7 @@ public class ToDoController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("index");		
-		modelAndView.addObject("listOfTodos", listOfTodos);
+		modelAndView.addObject("listOfTodos", listOfTodos.descendingMap().values());
 		modelAndView.addObject("user", new UserModel("550e8400-e29b-41d4-a716-446655440000", "st0rm1O1", "thekunalvartak@gmail.com", "alien"));
 		return modelAndView;
 	}
@@ -64,9 +63,9 @@ public class ToDoController {
 //	ACTION
 	@RequestMapping(path = "/add", method = RequestMethod.GET)
 	public String add(@RequestParam("task") String todoTask) {
-		int todoId = listOfTodos.get(listOfTodos.size() - 1).getId() + 1;
+		int todoId = listOfTodos.lastKey() + 1;
 		todoTask = StringUtils.isEmpty(todoTask) ? "TODO" : todoTask;
-		listOfTodos.add(new ToDoModel(todoId, todoTask, false));
+		listOfTodos.putIfAbsent(todoId, new ToDoModel(todoId, todoTask, false));
 		return "redirect:/";
 	}
 	
@@ -81,7 +80,7 @@ public class ToDoController {
 	
 	@RequestMapping(path = "/delete", method = RequestMethod.GET)
 	public String delete(@RequestParam("id") Integer todoId) {
-		listOfTodos.removeIf(todo -> todo.getId() == todoId);
+		listOfTodos.remove(todoId);
 		return "redirect:/";
 	}
 	
@@ -105,21 +104,17 @@ public class ToDoController {
 	
 //	UTILS
 	private void updateTodo(int todoId, String todoTask, Boolean isCompleted) {
-	    for (int i = 0; i < listOfTodos.size(); i++) {
-	    	
-	        ToDoModel todo = listOfTodos.get(i);
-	        
-	        if (todo.getId() == todoId) {
-	        	
-	        	if (todoTask != null)
-	        		todo.setTask(todoTask);
-	        	if (isCompleted != null)
-	        		todo.setCompleted(isCompleted);
-	        	
-	            listOfTodos.set(i, todo);
-	            break;
-	        }
-	    }
+		listOfTodos.computeIfPresent(todoId, (id, todo) -> {
+			if (todoTask != null) {
+				todo.setTask(todoTask);
+			}
+
+			if (isCompleted != null) {
+				todo.setCompleted(isCompleted);
+			}
+
+			return todo;
+		});
 	}
 	
 

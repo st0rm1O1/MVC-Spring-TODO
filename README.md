@@ -8,13 +8,13 @@ Below are some screenshots of the ToDo-MVC application:
 
 #### Dashboard
 
-![Dashboard](images/screenshot-dashboard.png)
+![Dashboard](preview/screenshot-dashboard.png)
 
 *Description: The main dashboard displaying the list of tasks with options to add, update, and delete tasks.*
 
 #### CRUD Operations (Task Modal)
 
-![CRUD](images/screenshot-crud.gif)
+![CRUD](preview/screenshot-crud.gif)
 
 *Description: The application features modals for efficiently managing tasks, including marking an existing task as complete, adding new tasks, updating existing tasks, and deleting tasks.*
 
